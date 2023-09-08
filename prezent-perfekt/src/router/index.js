@@ -17,7 +17,7 @@ const routes = [
         ],
     },
     {
-        path: '/person',
+        path: '/ideas',
         component: () => import('@/layouts/person/Person.vue'),
         children: [
             {

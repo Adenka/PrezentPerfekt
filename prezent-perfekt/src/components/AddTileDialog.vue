@@ -28,7 +28,7 @@
                 </v-btn>
                 <v-btn
                     text
-                    @click="this.$router.push('/person/')"
+                    @click="this.$router.push('/ideas/')"
                     variant="tonal"
                     class="action-button"
                 >

@@ -24,7 +24,7 @@
         },
         {
             id: 6,
-            description: 'Koszulka',
+            description: 'Hełm Mandalorianina',
         },
         {
             id: 7,

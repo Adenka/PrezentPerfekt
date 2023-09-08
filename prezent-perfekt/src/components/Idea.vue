@@ -39,7 +39,7 @@
     }
 
     .number {
-        height: 2.5rem;
+        min-width: 2.5rem;
         aspect-ratio: 1/1;
         display: flex;
         justify-content: center;

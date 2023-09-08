@@ -11,7 +11,7 @@
         variant="tonal"
         class="person-tile"
         :class="'bg-' + getBrightColor()"
-        @click="this.$router.push('/person/')"
+        @click="this.$router.push('/ideas/')"
     >
         <v-card-title class="tile-title">
             {{ personName }}
