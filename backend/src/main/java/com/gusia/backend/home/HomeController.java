@@ -25,11 +25,13 @@ public class HomeController {
         return homeService.getPeople();
     }
 
+    @CrossOrigin
     @RequestMapping(method = RequestMethod.POST, value="/")
     // @RequestBody - w request payload będzie reprezentacja JSON tego obiektu
     // TODO - generowanie id samemu
     public void addPerson(@RequestBody Person person) {
         //TODO - sprawdzenie uprawnień
+        System.out.println(person);
         homeService.addPerson(person);
     }
 

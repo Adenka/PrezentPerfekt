@@ -19,7 +19,6 @@ public class IdeaService {
     }
 
     public void addIdea(Idea idea) {
-
         ideaRepository.save(idea);
     }
 
