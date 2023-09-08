@@ -1,37 +1,20 @@
 <script setup>
     import PersonTile from "@/components/PersonTile.vue";
     import AddTile from "@/components/AddTile.vue";
+    import { ref, onMounted } from 'vue';
 
-    const people = [
-        {
-            id: 1,
-            name: "Antek",
-        },
-        {
-            id: 2,
-            name: "Mama",
-        },
-        {
-            id: 3,
-            name: "Kuba",
-        },
-        {
-            id: 4,
-            name: "Tata",
-        },
-        {
-            id: 5,
-            name: "Asia",
-        },
-        {
-            id: 6,
-            name: "Adam",
-        },
-        {
-            id: 7,
-            name: "Ewa",
-        }
-    ];
+    const people = ref([]);
+
+    onMounted(async () => {
+        const res = await fetch("http://localhost:8080/");
+
+        const data = await res.json();
+
+        console.log(data);
+
+        people.value = data;
+    })
+
 </script>
 
 <template>
