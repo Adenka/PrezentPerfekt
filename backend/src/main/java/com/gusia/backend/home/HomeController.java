@@ -11,8 +11,13 @@ import java.util.List;
 // kontroler do jakiejś ścieżki
 @RestController
 public class HomeController {
+    private final HomeService homeService;
+
     @Autowired
-    private HomeService homeService;
+    public HomeController(HomeService homeService) {
+        this.homeService = homeService;
+    }
+
     // ta anotacja jest z założenia do GET
     // inne trzeba wyspecyfikować
     @RequestMapping("/")

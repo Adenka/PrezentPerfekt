@@ -7,8 +7,12 @@ import java.util.List;
 
 @Service
 public class IdeaService {
+    private final IdeaRepository ideaRepository;
+
     @Autowired
-    private IdeaRepository ideaRepository;
+    public IdeaService(IdeaRepository ideaRepository) {
+        this.ideaRepository = ideaRepository;
+    }
 
     public List<Idea> getIdeas(int pid) {
         return ideaRepository.findByPersonPid(pid);

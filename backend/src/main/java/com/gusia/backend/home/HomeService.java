@@ -9,8 +9,12 @@ import java.util.List;
 
 @Service
 public class HomeService {
+    private final HomeRepository homeRepository;
+
     @Autowired
-    private HomeRepository homeRepository;
+    public HomeService(HomeRepository homeRepository) {
+        this.homeRepository = homeRepository;
+    }
 
     public List<Person> getPeople() {
         List<Person> people = new ArrayList<>();

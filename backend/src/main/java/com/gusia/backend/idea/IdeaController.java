@@ -12,8 +12,12 @@ import java.util.List;
 
 @RestController
 public class IdeaController {
+    private final IdeaService ideaService;
+
     @Autowired
-    private IdeaService ideaService;
+    public IdeaController(IdeaService ideaService) {
+        this.ideaService = ideaService;
+    }
 
     @RequestMapping("/{pid}/ideas")
     public List<Idea> getIdeas(@PathVariable("pid") int pid) {
