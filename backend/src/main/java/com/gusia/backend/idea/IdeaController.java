@@ -1,10 +1,8 @@
 package com.gusia.backend.idea;
 
-import com.gusia.backend.home.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 //TODO - basically to samo co w HomeController
@@ -19,18 +17,18 @@ public class IdeaController {
         this.ideaService = ideaService;
     }
 
-    @RequestMapping("/{pid}/ideas")
+    @RequestMapping("/people/{pid}/ideas")
     public List<Idea> getIdeas(@PathVariable("pid") int pid) {
         return ideaService.getIdeas(pid);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/{pid}/ideas")
+    @RequestMapping(method = RequestMethod.POST, value = "/people/{pid}/ideas")
     public void addIdea(@RequestBody Idea idea, @PathVariable("pid") int pid) {
         idea.setPerson(pid);
         ideaService.addIdea(idea);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/{pid}/ideas/{iid}")
+    @RequestMapping(method = RequestMethod.PUT, value = "/people/{pid}/ideas/{iid}")
     public void updateIdea(@PathVariable("iid") int iid,
                            @RequestBody Idea idea, @PathVariable int pid) {
         idea.setIid(iid);
@@ -38,7 +36,7 @@ public class IdeaController {
         ideaService.updateIdea(idea);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/{pid}/ideas/{iid}")
+    @RequestMapping(method = RequestMethod.DELETE, value = "/people/{pid}/ideas/{iid}")
     public void deleteIdea(@PathVariable("iid") int iid) {
         ideaService.deleteIdea(iid);
     }

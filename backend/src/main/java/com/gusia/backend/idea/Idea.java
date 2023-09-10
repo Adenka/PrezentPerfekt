@@ -1,6 +1,6 @@
 package com.gusia.backend.idea;
 
-import com.gusia.backend.home.Person;
+import com.gusia.backend.person.Person;
 import jakarta.persistence.*;
 
 @Entity
