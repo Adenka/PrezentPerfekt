@@ -15,17 +15,15 @@
         <v-card class="number">{{ props.number }}</v-card>
         <div class="description">{{ props.description }}</div>
         <v-spacer></v-spacer>
-        <div class="icon-wrapper">
-            <v-btn
-                icon="mdi-pencil"
-                elevation="0"
-                class="idea-button"
-            />
-        </div>
+        <v-btn
+            icon="mdi-pencil"
+            elevation="0"
+            class="idea-button"
+        />
         <v-btn
             icon="mdi-delete"
             elevation="0"
-            style="background-color: transparent;"
+            class="idea-button"
         />
     </v-card>
 </template>
@@ -57,10 +55,13 @@
     }
 
     .idea-button {
-        visibility: hidden;
+        color: rgb(50, 50, 50, 0.25);
+        transition: color 0.2s;
+        background-color: transparent;
+        margin: -0.5rem
     }
 
-    .idea-button:hover div {
-        visibility: visible;
+    .idea-button:hover {
+        color: rgb(50, 50, 50, 1);
     }
 </style>

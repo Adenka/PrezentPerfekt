@@ -17,11 +17,11 @@ const routes = [
         ],
     },
     {
-        path: '/ideas',
+        path: '/person',
         component: () => import('@/layouts/person/Person.vue'),
         children: [
             {
-                path: '',
+                path: ':pid',
                 name: 'Person',
                 component: () => import('@/views/Person.vue'),
             }

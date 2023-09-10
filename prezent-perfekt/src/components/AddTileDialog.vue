@@ -8,12 +8,13 @@
     const router = useRouter();
 
     const addTileOnClick = async () => {
+        const pid = 5;
         const payload = {
-            pid: 12,
+            pid: pid,
             name: personName.value
         }
 
-        const res = await fetch("http://localhost:8080/", {
+        const res = await fetch("http://localhost:8080/people", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -21,7 +22,8 @@
             body: JSON.stringify(payload)
         });
 
-       router.push('/ideas/')
+        dialogStorage.changeDialogOpen(false);
+        router.push(`/person/${pid}`);
     }
 </script>
 

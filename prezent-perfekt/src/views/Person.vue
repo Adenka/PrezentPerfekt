@@ -1,89 +1,45 @@
 <script setup>
     import Idea from '@/components/Idea.vue'
+    import { ref, onMounted } from 'vue';
+    import { useRoute } from "vue-router";
 
-    const ideas = [
-        {
-            id: 1,
-            description: 'Hełm Mandalorianina',
-        },
-        {
-            id: 2,
-            description: 'Koszulka',
-        },
-        {
-            id: 3,
-            description: 'Vorinclex, Voice of Hunger',
-        },
-        {
-            id: 4,
-            description: 'Vorinclex, Voice of Hunger',
-        },
-        {
-            id: 5,
-            description: 'Hełm Mandalorianina',
-        },
-        {
-            id: 6,
-            description: 'Hełm Mandalorianina',
-        },
-        {
-            id: 7,
-            description: 'Vorinclex, Voice of Hunger',
-        },
-        {
-            id: 8,
-            description: 'Vorinclex, Voice of Hunger',
-        },
-        {
-            id: 9,
-            description: 'Hełm Mandalorianina',
-        },
-        {
-            id: 10,
-            description: 'Koszulka',
-        },
-        {
-            id: 11,
-            description: 'Vorinclex, Voice of Hunger',
-        },
-        {
-            id: 12,
-            description: 'Vorinclex, Voice of Hunger',
-        },
-        {
-            id: 13,
-            description: 'Hełm Mandalorianina',
-        },
-        {
-            id: 14,
-            description: 'Koszulka',
-        },
-        {
-            id: 15,
-            description: 'Vorinclex, Voice of Hunger',
-        },
-        {
-            id: 16,
-            description: 'Vorinclex, Voice of Hunger',
-        },
-    ]
+    const personName = ref("");
+    const ideas = ref([]);
+
+    onMounted(async () => {
+        const route = useRoute();
+        console.log(route.params.pid);
+
+        const personRes = await fetch(`http://localhost:8080/people/${route.params.pid}`);
+        const personData = await personRes.json();
+        console.log(personData);
+
+        personName.value = personData.name;
+        console.log(personName.value);
+
+        const ideasRes = await fetch(`http://localhost:8080/people/${route.params.pid}/ideas`);
+        const ideasData = await ideasRes.json();
+        console.log(ideasData);
+
+        ideas.value = ideasData;
+    })
 </script>
 
 <template>
     <div class="root">
-        <h1 class="ma-4">Antek</h1>
+        <h1 class="ma-4">{{personName}}</h1>
         <v-row>
             <v-col
                 cols="12"
                 md="6"
                 lg="4"
                 xl="3"
-                v-for="idea in ideas"
+                v-for="(idea, index) in ideas"
                 :key="idea.id"
             >
                 <Idea
-                    :number="idea.id"
-                    :description="idea.description"
+                    :number="index + 1"
+                    :description="idea.title"
                 />
             </v-col>
         </v-row>

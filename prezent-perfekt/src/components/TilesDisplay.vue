@@ -6,7 +6,7 @@
     const people = ref([]);
 
     onMounted(async () => {
-        const res = await fetch("http://localhost:8080/");
+        const res = await fetch("http://localhost:8080/people");
 
         const data = await res.json();
 
@@ -25,7 +25,8 @@
         <div class="tile-wrapper">
             <PersonTile
                 v-for="person in people"
-                :key="person.id"
+                :key="person.pid"
+                :pid="person.pid"
                 :personName="person.name"
             />
             <AddTile />

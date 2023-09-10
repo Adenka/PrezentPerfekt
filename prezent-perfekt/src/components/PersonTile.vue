@@ -2,6 +2,7 @@
     import { getBrightColor } from '@/assets/brightColors';
 
     const props = defineProps({
+        pid: Number,
         personName: String,
     });
 </script>
@@ -11,7 +12,7 @@
         variant="tonal"
         class="person-tile"
         :class="'bg-' + getBrightColor()"
-        @click="this.$router.push('/ideas/')"
+        @click="this.$router.push(`/person/${props.pid}`)"
     >
         <v-card-title class="tile-title">
             {{ personName }}
