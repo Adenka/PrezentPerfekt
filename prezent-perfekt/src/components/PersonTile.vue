@@ -4,14 +4,17 @@
     const props = defineProps({
         pid: Number,
         personName: String,
+        color: String
     });
+
+    console.log(props.color)
 </script>
 
 <template>
     <v-card
         variant="tonal"
         class="person-tile"
-        :class="'bg-' + getBrightColor()"
+        :class="'bg-' + props.color"
         @click="this.$router.push(`/person/${props.pid}`)"
     >
         <v-card-title class="tile-title">

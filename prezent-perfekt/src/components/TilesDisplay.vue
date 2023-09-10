@@ -2,15 +2,17 @@
     import PersonTile from "@/components/PersonTile.vue";
     import AddTile from "@/components/AddTile.vue";
     import { ref, onMounted } from 'vue';
+    import { getBrightColorsArray } from '../assets/brightColors'
 
     const people = ref([]);
+    const colors = ref([]);
 
     onMounted(async () => {
         const res = await fetch("http://localhost:8080/people");
-
         const data = await res.json();
-
         console.log(data);
+
+        colors.value = getBrightColorsArray(data.length);
 
         people.value = data;
     })
@@ -24,10 +26,11 @@
         </h1>
         <div class="tile-wrapper">
             <PersonTile
-                v-for="person in people"
+                v-for="(person, index) in people"
                 :key="person.pid"
                 :pid="person.pid"
                 :personName="person.name"
+                :color="colors[index]"
             />
             <AddTile />
         </div>
