@@ -3,5 +3,5 @@
 </template>
 
 <script setup>
-    import TilesDisplay from '@/components/TilesDisplay.vue'
+    import TilesDisplay from '@/components/Tiles/TilesDisplay.vue';
 </script>

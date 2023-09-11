@@ -1,6 +1,4 @@
 <script setup>
-    import { getBrightColor } from '@/assets/brightColors';
-
     const props = defineProps({
         pid: String,
         personName: String,

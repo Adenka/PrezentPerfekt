@@ -7,7 +7,7 @@
 </template>
 
 <script setup>
+    import AppBarDrawer from '@/components/AppBar/AppBarDrawer.vue'
     import DefaultBar from '@/components/AppBar/AppBar.vue'
     import DefaultView from './View.vue'
-    import AppBarDrawer from '@/components/AppBar/AppBarDrawer.vue'
 </script>

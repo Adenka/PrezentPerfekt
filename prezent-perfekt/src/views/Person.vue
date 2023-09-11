@@ -1,7 +1,9 @@
 <script setup>
-    import Idea from '@/components/Idea.vue'
+    import AddIdea from '@/components/Ideas/AddIdea.vue';
+    import Idea from '@/components/Ideas/Idea.vue';
     import { ref, onMounted } from 'vue';
     import { useRoute } from "vue-router";
+    import AddIdeaDialog from '@/components/Ideas/AddIdeaDialog.vue';
 
     const personName = ref("");
     const ideas = ref([]);
@@ -27,6 +29,7 @@
 
 <template>
     <div class="root">
+        <AddIdeaDialog/>
         <h1 class="ma-4">{{personName}}</h1>
         <v-row>
             <v-col
@@ -40,6 +43,17 @@
                 <Idea
                     :number="index + 1"
                     :description="idea.title"
+                    :pid="this.$route.params.pid"
+                />
+            </v-col>
+            <v-col
+                cols="12"
+                md="6"
+                lg="4"
+                xl="3"
+            >
+                <AddIdea
+                    :pid="this.$route.params.pid"
                 />
             </v-col>
         </v-row>

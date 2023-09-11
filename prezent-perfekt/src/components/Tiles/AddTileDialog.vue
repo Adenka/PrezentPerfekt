@@ -1,5 +1,5 @@
 <script setup>
-    import { useDialogStorage } from '@/store/dialog';
+    import { useDialogStorage } from '@/store/dialogs';
     import { ref } from 'vue';
     import { useRouter } from 'vue-router';
 
@@ -8,9 +8,7 @@
     const router = useRouter();
 
     const addTileOnClick = async () => {
-        const pid = 5;
         const payload = {
-            pid: pid,
             name: personName.value
         }
 
@@ -23,7 +21,8 @@
         });
 
         dialogStorage.changeDialogOpen(false);
-        router.push(`/person/${pid}`);
+        //TODO - jakoś dostać pid od backendu
+        //router.push(`/person/${pid}`);
     }
 </script>
 

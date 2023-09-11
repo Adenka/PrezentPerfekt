@@ -4,7 +4,10 @@
     const props = defineProps({
         number: Number,
         description: String,
+        pid: String
     });
+
+    console.log(props.pid);
 </script>
 
 <template>
@@ -34,6 +37,7 @@
         gap: 1.5rem;
         display: flex;
         align-items: center;
+        height: 6rem;
     }
 
     .number {

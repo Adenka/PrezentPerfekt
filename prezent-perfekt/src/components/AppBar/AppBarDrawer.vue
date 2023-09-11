@@ -1,6 +1,6 @@
 <script setup>
     import { useDrawerStore } from '@/store/drawer';
-
+//TODO - request
     const drawerStore = useDrawerStore();
 
     const people = [

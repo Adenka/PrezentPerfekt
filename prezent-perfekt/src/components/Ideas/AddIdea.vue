@@ -1,35 +1,38 @@
 <script setup>
-    import AddTileDialog from './AddTileDialog.vue';
-    import { useDialogStorage } from '@/store/dialog';
+    import { useDialogStorage } from '@/store/dialogs';
 
     const dialogStorage = useDialogStorage();
-</script>
 
+    const props = defineProps({
+        pid: String
+    });
+</script>
 <template>
-    <AddTileDialog/>
     <v-card
+        class="root add-idea ma-4"
         elevation="0"
-        class="person-tile add-person-tile"
         @click="dialogStorage.changeDialogOpen(true)"
     >
         <v-icon class="add-icon">mdi-plus-circle</v-icon>
     </v-card>
 </template>
-
 <style scoped>
-    .person-tile {
-        width: 15rem;
-        aspect-ratio: 1/1;
+    .root {
+        padding: 1.5rem;
+        gap: 1.5rem;
         display: flex;
-        justify-content: center;
         align-items: center;
     }
-    .add-person-tile {
+
+    .add-idea {
         border: 5px dotted #b0b0b0;
+        height: 6rem;
+        display: flex;
+        justify-content: center;
     }
 
     .add-icon {
-        font-size: 5rem;
+        font-size: 3rem;
         color: #b0b0b0;
     }
 </style>
