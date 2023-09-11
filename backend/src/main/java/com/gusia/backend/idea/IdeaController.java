@@ -22,6 +22,7 @@ public class IdeaController {
         return ideaService.getIdeas(pid);
     }
 
+    @CrossOrigin
     @RequestMapping(method = RequestMethod.POST, value = "/people/{pid}/ideas")
     public void addIdea(@RequestBody Idea idea, @PathVariable("pid") UUID pid) {
         ideaService.addIdea(idea, pid);
