@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
-//TODO - basically to samo co w HomeController
 //TODO - check, czy pid i iid match
 
 @RestController
@@ -18,26 +18,24 @@ public class IdeaController {
     }
 
     @RequestMapping("/people/{pid}/ideas")
-    public List<Idea> getIdeas(@PathVariable("pid") int pid) {
+    public List<Idea> getIdeas(@PathVariable("pid") UUID pid) {
         return ideaService.getIdeas(pid);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/people/{pid}/ideas")
-    public void addIdea(@RequestBody Idea idea, @PathVariable("pid") int pid) {
-        idea.setPerson(pid);
-        ideaService.addIdea(idea);
+    public void addIdea(@RequestBody Idea idea, @PathVariable("pid") UUID pid) {
+        ideaService.addIdea(idea, pid);
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/people/{pid}/ideas/{iid}")
-    public void updateIdea(@PathVariable("iid") int iid,
-                           @RequestBody Idea idea, @PathVariable int pid) {
+    public void updateIdea(@PathVariable("iid") UUID iid,
+                           @RequestBody Idea idea, @PathVariable UUID pid) {
         idea.setIid(iid);
-        idea.setPerson(pid);
-        ideaService.updateIdea(idea);
+        ideaService.updateIdea(idea, pid);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/people/{pid}/ideas/{iid}")
-    public void deleteIdea(@PathVariable("iid") int iid) {
+    public void deleteIdea(@PathVariable("iid") UUID iid) {
         ideaService.deleteIdea(iid);
     }
 }

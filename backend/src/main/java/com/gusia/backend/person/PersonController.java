@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 // na początku Spring przejrzy mój epicki kod i znajdzie te anotacje,
 // więc nie trzeba się pocić, żeby coś gdzieś pododawać
@@ -26,14 +27,14 @@ public class PersonController {
     }
 
     @RequestMapping("/people/{pid}")
-    public Person getPerson(@PathVariable("pid") int pid) {
+    public Person getPerson(@PathVariable("pid") UUID pid) {
+        //TODO - co jeśli zwraca nulla?
         return personService.getPerson(pid);
     }
 
     @CrossOrigin
     @RequestMapping(method = RequestMethod.POST, value="/people")
     // @RequestBody - w request payload będzie reprezentacja JSON tego obiektu
-    // TODO - generowanie id samemu
     public void addPerson(@RequestBody Person person) {
         //TODO - sprawdzenie uprawnień
         System.out.println(person);
@@ -42,7 +43,7 @@ public class PersonController {
 
     @RequestMapping(method = RequestMethod.PUT, value = "/people/{pid}")
     // @PathVariable - zmienna ze ścieżki
-    public void updatePerson(@PathVariable("pid") int pid,
+    public void updatePerson(@PathVariable("pid") UUID pid,
                              //TODO - czy da się zrobić żeby tylko String czytać z RequestBody?
                              @RequestBody Person person) {
         //TODO - sprawdzenie uprawnień
@@ -51,7 +52,7 @@ public class PersonController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/people/{pid}")
-    public void deletePerson(@PathVariable("pid") int pid) {
+    public void deletePerson(@PathVariable("pid") UUID pid) {
         //TODO - sprawdzenie uprawnień
         personService.removePerson(pid);
 

@@ -3,10 +3,13 @@ package com.gusia.backend.idea;
 import com.gusia.backend.person.Person;
 import jakarta.persistence.*;
 
+import java.util.UUID;
+
 @Entity
 public class Idea {
     @Id
-    private Integer iid;
+    @GeneratedValue
+    private UUID iid;
     private String title;
     @ManyToOne
     private Person person;
@@ -15,17 +18,17 @@ public class Idea {
 
     }
 
-    public Idea(int iid, String title, Person person) {
+    public Idea(UUID iid, String title, Person person) {
         this.iid = iid;
         this.title = title;
         this.person = person;
     }
 
-    public int getIid() {
+    public UUID getIid() {
         return iid;
     }
 
-    public void setIid(int iid) {
+    public void setIid(UUID iid) {
         this.iid = iid;
     }
 
@@ -37,8 +40,7 @@ public class Idea {
         return person;
     }
 
-    // TODO - to jest jakieś okropne, ale nie wiem jak to zrobić lepiej
-    public void setPerson(int pid) {
-        this.person = new Person(pid, "");
+    public void setPerson(Person person) {
+        this.person = person;
     }
 }

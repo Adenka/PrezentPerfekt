@@ -4,27 +4,30 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 
+import java.util.UUID;
+
 @Entity
 public class Person {
     @Id
-    private Integer pid;
+    @GeneratedValue
+    private UUID pid;
     private String name;
 
     public Person() {
 
     }
 
-    public Person(int pid, String name) {
-        this.pid = pid;
+    public Person(String name) {
         this.name = name;
     }
 
-    public Person(Person person) {
-        this.pid = person.pid;
-        this.name = person.name;
+    // Ten setter jest ważny!
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public int getPid() {
+    // Te gettery też!
+    public UUID getPid() {
         return pid;
     }
 
@@ -32,11 +35,7 @@ public class Person {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setPid(int pid) {
+    public void setPid(UUID pid) {
         this.pid = pid;
     }
 

@@ -2,5 +2,7 @@ package com.gusia.backend.person;
 
 import org.springframework.data.repository.CrudRepository;
 
-public interface PersonRepository extends CrudRepository<Person, Integer> {
+import java.util.UUID;
+
+public interface PersonRepository extends CrudRepository<Person, UUID> {
 }
