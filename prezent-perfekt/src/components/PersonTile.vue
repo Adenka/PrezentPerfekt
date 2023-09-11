@@ -2,7 +2,7 @@
     import { getBrightColor } from '@/assets/brightColors';
 
     const props = defineProps({
-        pid: Number,
+        pid: String,
         personName: String,
         color: String
     });
