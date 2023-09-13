@@ -28,6 +28,7 @@ public class IdeaController {
         ideaService.addIdea(idea, pid);
     }
 
+    @CrossOrigin
     @RequestMapping(method = RequestMethod.PUT, value = "/people/{pid}/ideas/{iid}")
     public void updateIdea(@PathVariable("iid") UUID iid,
                            @RequestBody Idea idea, @PathVariable UUID pid) {
@@ -35,6 +36,7 @@ public class IdeaController {
         ideaService.updateIdea(idea, pid);
     }
 
+    //TODO - Cross?
     @RequestMapping(method = RequestMethod.DELETE, value = "/people/{pid}/ideas/{iid}")
     public void deleteIdea(@PathVariable("iid") UUID iid) {
         ideaService.deleteIdea(iid);

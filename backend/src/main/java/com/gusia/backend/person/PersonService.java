@@ -1,14 +1,12 @@
 package com.gusia.backend.person;
 
+import com.gusia.backend.exceptions.ObjectNotFoundException;
+import com.gusia.backend.validators.ObjectValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @Transactional
@@ -30,20 +28,23 @@ public class PersonService {
 
     @Transactional(readOnly = true)
     public Person getPerson(UUID pid) {
-        Optional<Person> personOptional = personRepository.findById(pid);
-        //TODO - exception?
-        return personOptional.orElse(null);
-
+        return personRepository.findById(pid).orElseThrow(
+                ObjectNotFoundException::new
+        );
     }
 
     @Transactional
     public void addPerson(Person person) {
+        ObjectValidator<Person> validator = new ObjectValidator<>();
+        validator.validate(person);
         System.out.println(person);
         personRepository.save(person);
     }
 
     @Transactional
     public void updatePerson(Person person) {
+        ObjectValidator<Person> validator = new ObjectValidator<>();
+        validator.validate(person);
         personRepository.save(person);
     }
 

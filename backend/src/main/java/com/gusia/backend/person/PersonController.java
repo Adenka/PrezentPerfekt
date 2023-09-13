@@ -28,7 +28,6 @@ public class PersonController {
 
     @RequestMapping("/people/{pid}")
     public Person getPerson(@PathVariable("pid") UUID pid) {
-        //TODO - co jeśli zwraca nulla?
         return personService.getPerson(pid);
     }
 
@@ -41,6 +40,7 @@ public class PersonController {
         personService.addPerson(person);
     }
 
+    @CrossOrigin
     @RequestMapping(method = RequestMethod.PUT, value = "/people/{pid}")
     // @PathVariable - zmienna ze ścieżki
     public void updatePerson(@PathVariable("pid") UUID pid,
@@ -51,6 +51,7 @@ public class PersonController {
         personService.updatePerson(person);
     }
 
+    //TODO - Cross?
     @RequestMapping(method = RequestMethod.DELETE, value = "/people/{pid}")
     public void deletePerson(@PathVariable("pid") UUID pid) {
         //TODO - sprawdzenie uprawnień

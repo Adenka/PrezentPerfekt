@@ -2,6 +2,7 @@ package com.gusia.backend.idea;
 
 import com.gusia.backend.person.Person;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.UUID;
 
@@ -10,6 +11,7 @@ public class Idea {
     @Id
     @GeneratedValue
     private UUID iid;
+    @NotBlank(message = "Enter a title!")
     private String title;
     @ManyToOne
     private Person person;
