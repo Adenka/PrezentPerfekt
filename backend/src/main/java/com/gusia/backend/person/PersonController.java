@@ -36,6 +36,7 @@ public class PersonController {
     // @RequestBody - w request payload będzie reprezentacja JSON tego obiektu
     public void addPerson(@RequestBody Person person) {
         //TODO - sprawdzenie uprawnień
+        //TODO - dodać do właściwego Usera
         System.out.println(person);
         personService.addPerson(person);
     }

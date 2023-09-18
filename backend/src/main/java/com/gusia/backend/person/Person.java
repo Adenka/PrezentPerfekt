@@ -1,8 +1,10 @@
 package com.gusia.backend.person;
 
+import com.gusia.backend.user.AppUser;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
 
 import java.util.UUID;
@@ -14,6 +16,8 @@ public class Person {
     private UUID pid;
     @NotBlank(message = "Enter a name!")
     private String name;
+    @ManyToOne
+    private AppUser user;
 
     public Person() {
 
@@ -43,5 +47,9 @@ public class Person {
 
     public String toString() {
         return "pid: " + this.pid + ", name: " + this.name;
+    }
+
+    public void setUser(AppUser user) {
+        this.user = user;
     }
 }
