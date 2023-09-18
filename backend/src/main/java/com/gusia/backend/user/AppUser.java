@@ -12,7 +12,7 @@ import java.util.Collections;
 public class AppUser implements UserDetails {
     @Id
     @GeneratedValue
-    private int id;
+    private Integer id;
     private String username;
     private String password;
     @Enumerated(EnumType.STRING)
@@ -62,5 +62,9 @@ public class AppUser implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
