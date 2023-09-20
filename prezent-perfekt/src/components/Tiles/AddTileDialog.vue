@@ -15,7 +15,8 @@
         const res = await fetch("http://localhost:8080/people", {
             method: "POST",
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': 'Basic ' + btoa('Gusia:stare-skarpety')
             },
             body: JSON.stringify(payload)
         });

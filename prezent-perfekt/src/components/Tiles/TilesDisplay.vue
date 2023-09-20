@@ -10,13 +10,28 @@
     const colors = ref([]);
 
     onMounted(async () => {
-        const res = await fetch("http://localhost:8080/people");
-        const data = await res.json();
+        //const res = await fetch("http://localhost:8080/people");
+        //const data = await res.json();
+
+        //console.log(res);
+
+        const resAuth = await fetch("http://localhost:8080/people", {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Basic ' + btoa('Gusia:stare-skarpety')
+            }
+        })
+
+        //const data = await resAuth.json();
+        const data = await resAuth.text();
+
         console.log(data);
 
-        colors.value = getBrightColorsArray(data.length);
 
-        people.value = data;
+//        colors.value = getBrightColorsArray(data.length);
+
+//        people.value = data;
     })
 
 </script>
