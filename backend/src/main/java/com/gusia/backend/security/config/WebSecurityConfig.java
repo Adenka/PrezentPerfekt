@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 @Configuration
@@ -22,12 +23,15 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 public class WebSecurityConfig {
     private final AppUserService appUserService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final CorsConfig corsConfigurationSource;
 
     @Autowired
     public WebSecurityConfig(AppUserService appUserService,
-                             BCryptPasswordEncoder bCryptPasswordEncoder) {
+                             BCryptPasswordEncoder bCryptPasswordEncoder,
+                             CorsConfig corsConfigurationSource) {
         this.appUserService = appUserService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.corsConfigurationSource = corsConfigurationSource;
     }
 
     @Bean
@@ -39,9 +43,12 @@ public class WebSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
                 //frameOptions -> frameOptions.sameOrigin()
-                .cors(AbstractHttpConfigurer::disable) //.cors(cors -> cors.disable())
+                //.cors(AbstractHttpConfigurer::disable) //.cors(cors -> cors.disable())
+                .cors(cors -> cors.configurationSource(corsConfigurationSource))
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers(mvcMatcherBuilder.pattern("/register")).permitAll()
+                        //.requestMatchers(mvcMatcherBuilder.pattern("/login")).permitAll()
+                        .requestMatchers(mvcMatcherBuilder.pattern("/actuator/*")).permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(Customizer.withDefaults()); //autoryzuj z loginem

@@ -1,6 +1,7 @@
 package com.gusia.backend.user;
 
 import com.gusia.backend.exceptions.ObjectNotFoundException;
+import com.gusia.backend.exceptions.RegistrationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -30,9 +31,11 @@ public class AppUserService implements UserDetailsService {
 
     @Transactional
     public void singUpUser(AppUser user) {
+        System.out.println(user);
+        System.out.println(appUserRepository.findByUsername(user.getUsername()));
         if (appUserRepository.findByUsername(user.getUsername()).isPresent()) {
             // TODO - custom exception
-            throw new IllegalStateException("Username taken!");
+            throw new RegistrationException("Username taken!");
         }
 
         String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());

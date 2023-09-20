@@ -1,8 +1,11 @@
 package com.gusia.backend.person;
 
+import com.gusia.backend.user.AppUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,11 +37,10 @@ public class PersonController {
     @CrossOrigin
     @RequestMapping(method = RequestMethod.POST, value="/people")
     // @RequestBody - w request payload będzie reprezentacja JSON tego obiektu
-    public void addPerson(@RequestBody Person person) {
-        //TODO - sprawdzenie uprawnień
-        //TODO - dodać do właściwego Usera
+    public void addPerson(@RequestBody Person person,
+                          @AuthenticationPrincipal AppUser user) {
         System.out.println(person);
-        personService.addPerson(person);
+        personService.addPerson(person, user);
     }
 
     @CrossOrigin
@@ -46,10 +48,11 @@ public class PersonController {
     // @PathVariable - zmienna ze ścieżki
     public void updatePerson(@PathVariable("pid") UUID pid,
                              //TODO - czy da się zrobić żeby tylko String czytać z RequestBody?
-                             @RequestBody Person person) {
+                             @RequestBody Person person,
+                             @AuthenticationPrincipal AppUser user) {
         //TODO - sprawdzenie uprawnień
         person.setPid(pid);
-        personService.updatePerson(person);
+        personService.updatePerson(person, user);
     }
 
     //TODO - Cross?

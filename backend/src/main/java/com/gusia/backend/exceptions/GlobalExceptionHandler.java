@@ -18,4 +18,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<?> handleException(ObjectNotFoundException e) {
         return ResponseEntity.badRequest().body("Object not found in DB!");
     }
+
+    @ExceptionHandler(RegistrationException.class)
+    public ResponseEntity<?> handleException(RegistrationException e) {
+        System.out.println(e.getMessage());
+        return ResponseEntity.badRequest().body(e.getMessage());
+    }
 }

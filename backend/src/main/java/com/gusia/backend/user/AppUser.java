@@ -41,7 +41,7 @@ public class AppUser implements UserDetails {
 
     @Override
     public String getUsername() {
-        return null;
+        return username;
     }
 
     @Override
@@ -66,5 +66,10 @@ public class AppUser implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "username: " + username;
     }
 }

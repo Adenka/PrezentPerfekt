@@ -1,6 +1,7 @@
 package com.gusia.backend.person;
 
 import com.gusia.backend.exceptions.ObjectNotFoundException;
+import com.gusia.backend.user.AppUser;
 import com.gusia.backend.validators.ObjectValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,17 +35,21 @@ public class PersonService {
     }
 
     @Transactional
-    public void addPerson(Person person) {
+    public void addPerson(Person person, AppUser user) {
         ObjectValidator<Person> validator = new ObjectValidator<>();
         validator.validate(person);
+
+        person.setUser(user);
         System.out.println(person);
         personRepository.save(person);
     }
 
     @Transactional
-    public void updatePerson(Person person) {
+    public void updatePerson(Person person, AppUser user) {
         ObjectValidator<Person> validator = new ObjectValidator<>();
         validator.validate(person);
+
+        person.setUser(user);
         personRepository.save(person);
     }
 
