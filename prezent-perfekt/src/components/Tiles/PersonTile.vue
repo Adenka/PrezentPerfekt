@@ -1,3 +1,4 @@
+//TODO - delete/rename person
 <script setup>
     const props = defineProps({
         pid: String,

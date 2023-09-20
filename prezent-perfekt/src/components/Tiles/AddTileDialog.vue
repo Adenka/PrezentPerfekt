@@ -2,6 +2,7 @@
     import { useDialogStorage } from '@/store/dialogs';
     import { ref } from 'vue';
     import { useRouter } from 'vue-router';
+    import { backendURL } from '@/assets/constants';
 
     const dialogStorage = useDialogStorage();
     const personName = ref('');
@@ -12,7 +13,7 @@
             name: personName.value
         }
 
-        const res = await fetch("http://localhost:8080/people", {
+        const res = await fetch(`${backendURL}/api/people`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -22,8 +23,11 @@
         });
 
         dialogStorage.changeDialogOpen(false);
-        //TODO - jakoś dostać pid od backendu
-        //router.push(`/person/${pid}`);
+
+        const resJson = await res.json();
+
+        console.log(resJson);
+        router.push(`/person/${resJson.pid}`);
     }
 </script>
 

@@ -1,37 +1,24 @@
 <script setup>
     //TODO - może to powinien być layout or sth
+    //TODO - drag and drop
     import PersonTile from "@/components/Tiles/PersonTile.vue";
     import AddTile from "@/components/Tiles/AddTile.vue";
     import { ref, onMounted } from 'vue';
     import { getBrightColorsArray } from '../../assets/brightColors';
     import AddTileDialog from './AddTileDialog.vue';
+    import { backendURL } from "@/assets/constants";
 
     const people = ref([]);
     const colors = ref([]);
 
     onMounted(async () => {
-        //const res = await fetch("http://localhost:8080/people");
-        //const data = await res.json();
-
-        //console.log(res);
-
-        const resAuth = await fetch("http://localhost:8080/people", {
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Basic ' + btoa('Gusia:stare-skarpety')
-            }
-        })
-
-        //const data = await resAuth.json();
-        const data = await resAuth.text();
-
+        const res = await fetch(`${backendURL}/api/people`);
+        const data = await res.json();
         console.log(data);
 
+        colors.value = getBrightColorsArray(data.length);
 
-//        colors.value = getBrightColorsArray(data.length);
-
-//        people.value = data;
+        people.value = data;
     })
 
 </script>

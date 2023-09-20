@@ -3,6 +3,7 @@
     import { useDialogStorage } from '@/store/dialogs';
     import { ref } from 'vue';
     import { useRoute } from "vue-router";
+    import { backendURL } from '@/assets/constants';
 
     const dialogStorage = useDialogStorage();
     const ideaTitle = ref('');
@@ -13,7 +14,7 @@
             title: ideaTitle.value
         }
 
-        const res = await fetch(`http://localhost:8080/people/${route.params.pid}/ideas`, {
+        const res = await fetch(`${backendURL}/api/people/${route.params.pid}/ideas`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'

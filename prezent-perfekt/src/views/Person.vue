@@ -4,6 +4,7 @@
     import { ref, onMounted } from 'vue';
     import { useRoute } from "vue-router";
     import AddIdeaDialog from '@/components/Ideas/AddIdeaDialog.vue';
+    import { backendURL } from '@/assets/constants';
 
     const personName = ref("");
     const ideas = ref([]);
@@ -12,14 +13,14 @@
         const route = useRoute();
         console.log(route.params.pid);
 
-        const personRes = await fetch(`http://localhost:8080/people/${route.params.pid}`);
+        const personRes = await fetch(`${backendURL}/api/people/${route.params.pid}`);
         const personData = await personRes.json();
         console.log(personData);
 
         personName.value = personData.name;
         console.log(personName.value);
 
-        const ideasRes = await fetch(`http://localhost:8080/people/${route.params.pid}/ideas`);
+        const ideasRes = await fetch(`${backendURL}/api/people/${route.params.pid}/ideas`);
         const ideasData = await ideasRes.json();
         console.log(ideasData);
 
