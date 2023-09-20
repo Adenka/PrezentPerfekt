@@ -24,27 +24,29 @@ public class PersonController {
 
     // ta anotacja jest z założenia do GET
     // inne trzeba wyspecyfikować
-    @RequestMapping("/people")
+    @RequestMapping("/api/people")
     public List<Person> getPeople() {
         return personService.getPeople();
     }
 
-    @RequestMapping("/people/{pid}")
+    @RequestMapping("/api/people/{pid}")
     public Person getPerson(@PathVariable("pid") UUID pid) {
         return personService.getPerson(pid);
     }
 
     @CrossOrigin
-    @RequestMapping(method = RequestMethod.POST, value="/people")
+    @RequestMapping(method = RequestMethod.POST, value="/api/people")
     // @RequestBody - w request payload będzie reprezentacja JSON tego obiektu
-    public void addPerson(@RequestBody Person person,
+    public Person addPerson(@RequestBody Person person,
                           @AuthenticationPrincipal AppUser user) {
         System.out.println(person);
-        personService.addPerson(person, user);
+        Person savedPerson = personService.addPerson(person, user);
+        System.out.println(savedPerson);
+        return savedPerson;
     }
 
     @CrossOrigin
-    @RequestMapping(method = RequestMethod.PUT, value = "/people/{pid}")
+    @RequestMapping(method = RequestMethod.PUT, value = "/api/people/{pid}")
     // @PathVariable - zmienna ze ścieżki
     public void updatePerson(@PathVariable("pid") UUID pid,
                              //TODO - czy da się zrobić żeby tylko String czytać z RequestBody?
@@ -56,7 +58,7 @@ public class PersonController {
     }
 
     //TODO - Cross?
-    @RequestMapping(method = RequestMethod.DELETE, value = "/people/{pid}")
+    @RequestMapping(method = RequestMethod.DELETE, value = "/api/people/{pid}")
     public void deletePerson(@PathVariable("pid") UUID pid) {
         //TODO - sprawdzenie uprawnień
         personService.removePerson(pid);

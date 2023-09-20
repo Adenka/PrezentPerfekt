@@ -35,13 +35,13 @@ public class PersonService {
     }
 
     @Transactional
-    public void addPerson(Person person, AppUser user) {
+    public Person addPerson(Person person, AppUser user) {
         ObjectValidator<Person> validator = new ObjectValidator<>();
         validator.validate(person);
 
         person.setUser(user);
         System.out.println(person);
-        personRepository.save(person);
+        return personRepository.save(person);
     }
 
     @Transactional

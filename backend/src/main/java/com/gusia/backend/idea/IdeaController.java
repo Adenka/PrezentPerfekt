@@ -17,19 +17,19 @@ public class IdeaController {
         this.ideaService = ideaService;
     }
 
-    @RequestMapping("/people/{pid}/ideas")
+    @RequestMapping("/api/people/{pid}/ideas")
     public List<Idea> getIdeas(@PathVariable("pid") UUID pid) {
         return ideaService.getIdeas(pid);
     }
 
     @CrossOrigin
-    @RequestMapping(method = RequestMethod.POST, value = "/people/{pid}/ideas")
+    @RequestMapping(method = RequestMethod.POST, value = "/api/people/{pid}/ideas")
     public void addIdea(@RequestBody Idea idea, @PathVariable("pid") UUID pid) {
         ideaService.addIdea(idea, pid);
     }
 
     @CrossOrigin
-    @RequestMapping(method = RequestMethod.PUT, value = "/people/{pid}/ideas/{iid}")
+    @RequestMapping(method = RequestMethod.PUT, value = "/api/people/{pid}/ideas/{iid}")
     public void updateIdea(@PathVariable("iid") UUID iid,
                            @RequestBody Idea idea, @PathVariable UUID pid) {
         idea.setIid(iid);
@@ -37,7 +37,7 @@ public class IdeaController {
     }
 
     //TODO - Cross?
-    @RequestMapping(method = RequestMethod.DELETE, value = "/people/{pid}/ideas/{iid}")
+    @RequestMapping(method = RequestMethod.DELETE, value = "/api/people/{pid}/ideas/{iid}")
     public void deleteIdea(@PathVariable("iid") UUID iid) {
         ideaService.deleteIdea(iid);
     }
