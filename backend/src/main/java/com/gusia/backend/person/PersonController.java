@@ -14,6 +14,8 @@ import java.util.UUID;
 
 // kontroler do jakiejś ścieżki
 @RestController
+@RequestMapping(path="/api/people")
+//TODO - można dorzucić produces="application/json do @RequestMapping (strona 142)
 public class PersonController {
     private final PersonService personService;
 
@@ -22,46 +24,39 @@ public class PersonController {
         this.personService = personService;
     }
 
-    // ta anotacja jest z założenia do GET
-    // inne trzeba wyspecyfikować
-    @RequestMapping("/api/people")
-    public List<Person> getPeople() {
-        return personService.getPeople();
+    @GetMapping
+    public List<Person> getPeople(@AuthenticationPrincipal AppUser user) {
+        return personService.getPeople(user);
     }
 
-    @RequestMapping("/api/people/{pid}")
-    public Person getPerson(@PathVariable("pid") UUID pid) {
-        return personService.getPerson(pid);
+    @GetMapping("/{pid}")
+    public Person getPerson(@PathVariable("pid") UUID pid,
+                            @AuthenticationPrincipal AppUser user) {
+        return personService.getPerson(pid, user);
     }
 
     @CrossOrigin
-    @RequestMapping(method = RequestMethod.POST, value="/api/people")
+    @PostMapping
     // @RequestBody - w request payload będzie reprezentacja JSON tego obiektu
     public Person addPerson(@RequestBody Person person,
-                          @AuthenticationPrincipal AppUser user) {
-        System.out.println(person);
-        Person savedPerson = personService.addPerson(person, user);
-        System.out.println(savedPerson);
-        return savedPerson;
+                            @AuthenticationPrincipal AppUser user) {
+        return personService.addPerson(person, user);
     }
 
     @CrossOrigin
-    @RequestMapping(method = RequestMethod.PUT, value = "/api/people/{pid}")
+    @PutMapping("/{pid}")
     // @PathVariable - zmienna ze ścieżki
     public void updatePerson(@PathVariable("pid") UUID pid,
-                             //TODO - czy da się zrobić żeby tylko String czytać z RequestBody?
                              @RequestBody Person person,
                              @AuthenticationPrincipal AppUser user) {
-        //TODO - sprawdzenie uprawnień
         person.setPid(pid);
         personService.updatePerson(person, user);
     }
 
     //TODO - Cross?
-    @RequestMapping(method = RequestMethod.DELETE, value = "/api/people/{pid}")
-    public void deletePerson(@PathVariable("pid") UUID pid) {
-        //TODO - sprawdzenie uprawnień
-        personService.removePerson(pid);
-
+    @DeleteMapping("/{pid}")
+    public void deletePerson(@PathVariable("pid") UUID pid,
+                             @AuthenticationPrincipal AppUser user) {
+        personService.removePerson(pid, user);
     }
 }

@@ -1,5 +1,7 @@
 package com.gusia.backend.user;
 
+import com.gusia.backend.exceptions.NoAccessException;
+import com.gusia.backend.person.Person;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -71,5 +73,9 @@ public class AppUser implements UserDetails {
     @Override
     public String toString() {
         return "username: " + username;
+    }
+
+    public Integer getId() {
+        return id;
     }
 }

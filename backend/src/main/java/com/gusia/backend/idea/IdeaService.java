@@ -1,7 +1,12 @@
 package com.gusia.backend.idea;
 
+import com.gusia.backend.exceptions.NoAccessException;
 import com.gusia.backend.exceptions.ObjectNotFoundException;
+import com.gusia.backend.person.Person;
 import com.gusia.backend.person.PersonRepository;
+import com.gusia.backend.person.PersonUtils;
+import com.gusia.backend.security.UserAuthentication;
+import com.gusia.backend.user.AppUser;
 import com.gusia.backend.validators.ObjectValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,23 +19,37 @@ import java.util.*;
 public class IdeaService {
     private final IdeaRepository ideaRepository;
     private final PersonRepository personRepository;
+    private final UserAuthentication userAuthentication;
+    private final PersonUtils personUtils;
 
     @Autowired
-    public IdeaService(IdeaRepository ideaRepository, PersonRepository personRepository) {
+    public IdeaService(IdeaRepository ideaRepository,
+                       PersonRepository personRepository,
+                       UserAuthentication userAuthentication,
+                       PersonUtils personUtils) {
         this.ideaRepository = ideaRepository;
         this.personRepository = personRepository;
+        this.userAuthentication = userAuthentication;
+        this.personUtils = personUtils;
+    }
+
+    private void assertIdeaFromPid(Idea idea, UUID pid) {
+        UUID IdeaPersonId = idea.getPerson().getPid();
+        if (!IdeaPersonId.equals(pid)) {
+            throw new NoAccessException("This idea is not assigned to this person!");
+        }
     }
 
     @Transactional(readOnly = true)
-    public List<Idea> getIdeas(UUID pid) {
+    public List<Idea> getIdeas(UUID pid, AppUser user) {
+        userAuthentication.assertPidFromUser(pid, user);
         return ideaRepository.findByPersonPid(pid);
     }
 
     @Transactional
-    public void addIdea(Idea idea, UUID pid) {
-        idea.setPerson(personRepository.findById(pid).orElseThrow(
-                ObjectNotFoundException::new
-        ));
+    public void addIdea(Idea idea, UUID pid, AppUser user) {
+        userAuthentication.assertPidFromUser(pid, user);
+        idea.setPerson(personUtils.findPerson(pid));
 
         ObjectValidator<Idea> validator = new ObjectValidator<>();
         validator.validate(idea);
@@ -38,10 +57,10 @@ public class IdeaService {
     }
 
     @Transactional
-    public void updateIdea(Idea idea, UUID pid) {
-        idea.setPerson(personRepository.findById(pid).orElseThrow(
-                ObjectNotFoundException::new
-        ));
+    public void updateIdea(Idea idea, UUID pid, AppUser user) {
+        userAuthentication.assertPidFromUser(pid, user);
+        assertIdeaFromPid(idea, pid);
+        idea.setPerson(personUtils.findPerson(pid));
 
         ObjectValidator<Idea> validator = new ObjectValidator<>();
         validator.validate(idea);

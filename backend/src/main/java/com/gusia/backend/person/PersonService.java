@@ -1,6 +1,7 @@
 package com.gusia.backend.person;
 
 import com.gusia.backend.exceptions.ObjectNotFoundException;
+import com.gusia.backend.security.UserAuthentication;
 import com.gusia.backend.user.AppUser;
 import com.gusia.backend.validators.ObjectValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,25 +14,29 @@ import java.util.*;
 @Transactional
 public class PersonService {
     private final PersonRepository personRepository;
+    private final UserAuthentication userAuthentication;
+    private final PersonUtils personUtils;
 
     @Autowired
-    public PersonService(PersonRepository personRepository) {
+    public PersonService(PersonRepository personRepository,
+                         UserAuthentication userAuthentication,
+                         PersonUtils personUtils) {
         this.personRepository = personRepository;
+        this.userAuthentication = userAuthentication;
+        this.personUtils = personUtils;
     }
 
     @Transactional(readOnly = true)
-    public List<Person> getPeople() {
-        List<Person> people = new ArrayList<>();
-        personRepository.findAll().forEach(person -> {people.add(person);});
-
-        return people;
+    public List<Person> getPeople(AppUser user) {
+        return new ArrayList<>(personRepository.findByUserId(user.getId()));
     }
 
     @Transactional(readOnly = true)
-    public Person getPerson(UUID pid) {
-        return personRepository.findById(pid).orElseThrow(
-                ObjectNotFoundException::new
-        );
+    public Person getPerson(UUID pid, AppUser user) {
+        Person person = personUtils.findPerson(pid);
+        userAuthentication.assertPersonFromUser(person, user);
+
+        return person;
     }
 
     @Transactional
@@ -40,7 +45,7 @@ public class PersonService {
         validator.validate(person);
 
         person.setUser(user);
-        System.out.println(person);
+        // tu chyba nie trzeba checkować usera
         return personRepository.save(person);
     }
 
@@ -49,12 +54,20 @@ public class PersonService {
         ObjectValidator<Person> validator = new ObjectValidator<>();
         validator.validate(person);
 
+        if (personRepository.findById(person.getPid()).isPresent()) {
+            throw new ObjectNotFoundException();
+        }
+
         person.setUser(user);
+
+        userAuthentication.assertPersonFromUser(person, user);
         personRepository.save(person);
     }
 
     @Transactional
-    public void removePerson(UUID pid) {
+    public void removePerson(UUID pid, AppUser user) {
+        Person person = personUtils.findPerson(pid);
+        userAuthentication.assertPersonFromUser(person, user);
         personRepository.deleteById(pid);
     }
 }

@@ -49,7 +49,13 @@ public class Person {
         return "pid: " + this.pid + ", name: " + this.name;
     }
 
+    public AppUser getUser() {
+        return user;
+    }
+
     public void setUser(AppUser user) {
         this.user = user;
     }
+
+
 }
