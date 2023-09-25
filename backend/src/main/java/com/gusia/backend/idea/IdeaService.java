@@ -11,6 +11,7 @@ import com.gusia.backend.validators.ObjectValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.*;
 
@@ -31,6 +32,13 @@ public class IdeaService {
         this.personRepository = personRepository;
         this.userAuthentication = userAuthentication;
         this.personUtils = personUtils;
+    }
+
+    private void assertIidFromPid(UUID iid, UUID pid) {
+        Idea idea = ideaRepository.findById(iid).orElseThrow(
+                ObjectNotFoundException::new
+        );
+        assertIdeaFromPid(idea, pid);
     }
 
     private void assertIdeaFromPid(Idea idea, UUID pid) {
@@ -67,8 +75,12 @@ public class IdeaService {
         ideaRepository.save(idea);
     }
 
+    //TODO - jak zrobić żeby sygnalizować czy delete się udał czy nie
+    @CrossOrigin
     @Transactional
-    public void deleteIdea(UUID iid) {
+    public void deleteIdea(UUID iid, UUID pid, AppUser user) {
+        userAuthentication.assertPidFromUser(pid, user);
+        assertIidFromPid(iid, pid);
         ideaRepository.deleteById(iid);
     }
 }

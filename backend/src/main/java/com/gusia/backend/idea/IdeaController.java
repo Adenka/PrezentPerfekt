@@ -2,16 +2,19 @@ package com.gusia.backend.idea;
 
 import com.gusia.backend.user.AppUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
-//TODO - check, czy dodajemy od zalogowanego użytkownika
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+//TODO - czemu ten parametr zafajdany nie działa
 @RestController
-@RequestMapping(path="/api/people/{pid}/ideas")
+@RequestMapping("/api/people/{pid}/ideas")
 public class IdeaController {
     private final IdeaService ideaService;
 
@@ -20,14 +23,24 @@ public class IdeaController {
         this.ideaService = ideaService;
     }
 
-    @GetMapping
-    public List<Idea> getIdeas(@PathVariable("pid") UUID pid,
-                               @AuthenticationPrincipal AppUser user) {
-        return ideaService.getIdeas(pid, user);
+    //@GetMapping
+    //@RequestMapping(value = "/api/people/{pid}/ideas")
+    @RequestMapping("")
+    public CollectionModel<IdeaModel> getIdeas(@PathVariable(value = "pid") UUID pid,
+                                          @AuthenticationPrincipal AppUser user) {
+        List<Idea> ideasList = ideaService.getIdeas(pid, user);
+        CollectionModel<IdeaModel> ideaModels = new IdeaModelAssembler().toCollectionModel(ideasList);
+
+        ideaModels.add(
+                linkTo(methodOn(IdeaController.class).getIdeas(pid, user)).withSelfRel()
+        );
+
+        return ideaModels;
     }
 
-    @CrossOrigin
-    @PostMapping
+    //@PostMapping
+    //@RequestMapping(value = "/api/people/{pid}/ideas", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST, value = "")
     public void addIdea(@RequestBody Idea idea,
                         @PathVariable("pid") UUID pid,
                         @AuthenticationPrincipal AppUser user) {
@@ -35,7 +48,8 @@ public class IdeaController {
     }
 
     @CrossOrigin
-    @PutMapping("/{iid}")
+    //@PutMapping("/{iid}")
+    //@RequestMapping(value = "/api/people/{pid}/ideas/{iid}", method = RequestMethod.PUT)
     public void updateIdea(@RequestBody Idea idea,
                            @PathVariable("iid") UUID iid,
                            @PathVariable UUID pid,
@@ -44,10 +58,12 @@ public class IdeaController {
         ideaService.updateIdea(idea, pid, user);
     }
 
-    //TODO - Cross?
-    @DeleteMapping("/{iid}")
+    //@DeleteMapping("/{iid}")
+    //@RequestMapping(value = "/api/people/{pid}/ideas/{iid}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{iid}", method = RequestMethod.DELETE)
     public void deleteIdea(@PathVariable("iid") UUID iid,
+                           @PathVariable("pid") UUID pid,
                            @AuthenticationPrincipal AppUser user) {
-        ideaService.deleteIdea(iid);
+        ideaService.deleteIdea(iid, pid, user);
     }
 }

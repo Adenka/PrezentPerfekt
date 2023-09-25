@@ -45,4 +45,9 @@ public class Idea {
     public void setPerson(Person person) {
         this.person = person;
     }
+
+    @Override
+    public String toString() {
+        return "title: " + title + ", person: " + person.getName();
+    }
 }

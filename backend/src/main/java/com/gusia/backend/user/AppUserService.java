@@ -31,8 +31,6 @@ public class AppUserService implements UserDetailsService {
 
     @Transactional
     public void singUpUser(AppUser user) {
-        System.out.println(user);
-        System.out.println(appUserRepository.findByUsername(user.getUsername()));
         if (appUserRepository.findByUsername(user.getUsername()).isPresent()) {
             // TODO - custom exception
             throw new RegistrationException("Username taken!");
