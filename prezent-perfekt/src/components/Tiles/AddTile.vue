@@ -1,5 +1,6 @@
 <script setup>
     //TODO - zrobić ogólną klasę na Tile
+    //TODO - guzik nie może być aktywny jak trawimy request
     import { useDialogStorage } from '@/store/dialogs';
 
     const dialogStorage = useDialogStorage();

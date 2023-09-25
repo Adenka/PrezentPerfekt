@@ -12,7 +12,9 @@
     <v-app-bar
         color="black"
     >
-        <v-app-bar-title>
+        <v-app-bar-title
+            @click="this.$router.push('/')"
+        >
             Prezent Perfekt
         </v-app-bar-title>
         <v-spacer></v-spacer>

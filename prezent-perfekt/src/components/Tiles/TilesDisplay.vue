@@ -7,18 +7,28 @@
     import { getBrightColorsArray } from '../../assets/brightColors';
     import AddTileDialog from './AddTileDialog.vue';
     import { backendURL } from "@/assets/constants";
+    import { useRouter } from 'vue-router';
 
     const people = ref([]);
     const colors = ref([]);
+    const router = useRouter();
 
     onMounted(async () => {
         const res = await fetch(`${backendURL}/api/people`);
-        const data = await res.json();
+        let data;
+        //try {
+            data = await res.json();
+        /*}
+        catch(error) {
+            router.push('/login');
+        }*/
         console.log(data);
 
-        colors.value = getBrightColorsArray(data.length);
+        const peopleArray = data._embedded.personModelList;
+        console.log(peopleArray);
+        colors.value = getBrightColorsArray(peopleArray.length);
 
-        people.value = data;
+        people.value = peopleArray;
     })
 
 </script>
@@ -32,10 +42,11 @@
         <div class="tile-wrapper">
             <PersonTile
                 v-for="(person, index) in people"
-                :key="person.pid"
                 :pid="person.pid"
+                :key="person.pid"
                 :personName="person.name"
                 :color="colors[index]"
+                :link="person._links.self.href"
             />
             <AddTile />
         </div>

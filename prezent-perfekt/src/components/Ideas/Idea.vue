@@ -4,8 +4,29 @@
     const props = defineProps({
         number: Number,
         description: String,
-        pid: String
+        pid: String,
+        selfLink: String
     });
+
+    console.log(props.selfLink);
+
+    const emit = defineEmits(['update'])
+
+    const deleteIdea = async () => {
+        const url = new URL(props.selfLink);
+        console.log(url.pathname)
+        const res = await fetch(`${url.pathname}`, {
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const restext = await res.text();
+        console.log(restext);
+
+        emit('update')
+    }
 
     console.log(props.pid);
 </script>
@@ -27,6 +48,7 @@
             icon="mdi-delete"
             elevation="0"
             class="idea-button"
+            @click="deleteIdea"
         />
     </v-card>
 </template>

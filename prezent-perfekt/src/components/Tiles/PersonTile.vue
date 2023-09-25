@@ -3,7 +3,8 @@
     const props = defineProps({
         pid: String,
         personName: String,
-        color: String
+        color: String,
+        link: String
     });
 
     console.log(props.color)

@@ -16,8 +16,7 @@
         const res = await fetch(`${backendURL}/api/people`, {
             method: "POST",
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Basic ' + btoa('Gusia:stare-skarpety')
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(payload)
         });

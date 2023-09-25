@@ -1,7 +1,7 @@
 <script setup>
     import AddIdea from '@/components/Ideas/AddIdea.vue';
     import Idea from '@/components/Ideas/Idea.vue';
-    import { ref, onMounted } from 'vue';
+    import { ref, onMounted, computed } from 'vue';
     import { useRoute } from "vue-router";
     import AddIdeaDialog from '@/components/Ideas/AddIdeaDialog.vue';
     import { backendURL } from '@/assets/constants';
@@ -10,9 +10,12 @@
     const ideas = ref([]);
 
     onMounted(async () => {
-        const route = useRoute();
-        console.log(route.params.pid);
+        fetchIdeas();
+    })
 
+    const route = useRoute();
+
+    const fetchIdeas = async () => {
         const personRes = await fetch(`${backendURL}/api/people/${route.params.pid}`);
         const personData = await personRes.json();
         console.log(personData);
@@ -23,14 +26,27 @@
         const ideasRes = await fetch(`${backendURL}/api/people/${route.params.pid}/ideas`);
         const ideasData = await ideasRes.json();
         console.log(ideasData);
+        
+        const ideasArray = (() => {
+            try {
+                return ideasData._embedded.ideaModelList;
+            }
+            catch {
+                return [];
+            }
+        })();
 
-        ideas.value = ideasData;
-    })
+        console.log(ideasArray);
+
+        ideas.value = ideasArray;
+    }
 </script>
 
 <template>
     <div class="root">
-        <AddIdeaDialog/>
+        <AddIdeaDialog
+            @update="fetchIdeas"
+        />
         <h1 class="ma-4">{{personName}}</h1>
         <v-row>
             <v-col
@@ -45,6 +61,8 @@
                     :number="index + 1"
                     :description="idea.title"
                     :pid="this.$route.params.pid"
+                    :selfLink="idea._links.self.href"
+                    @update="fetchIdeas"
                 />
             </v-col>
             <v-col

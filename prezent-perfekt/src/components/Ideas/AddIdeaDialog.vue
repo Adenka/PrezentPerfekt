@@ -9,6 +9,8 @@
     const ideaTitle = ref('');
     const route = useRoute();
 
+    const emit = defineEmits(['update'])
+
     const addIdeaOnClick = async () => {
         const payload = {
             title: ideaTitle.value
@@ -24,7 +26,7 @@
 
         dialogStorage.changeDialogOpen(false);
         
-        //TODO - fetch po wysłaniu requesta
+        emit('update');
     }
 </script>
 
