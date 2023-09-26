@@ -15,15 +15,12 @@ import java.util.*;
 public class PersonService {
     private final PersonRepository personRepository;
     private final UserAuthentication userAuthentication;
-    private final PersonUtils personUtils;
 
     @Autowired
     public PersonService(PersonRepository personRepository,
-                         UserAuthentication userAuthentication,
-                         PersonUtils personUtils) {
+                         UserAuthentication userAuthentication) {
         this.personRepository = personRepository;
         this.userAuthentication = userAuthentication;
-        this.personUtils = personUtils;
     }
 
     @Transactional(readOnly = true)
@@ -33,7 +30,7 @@ public class PersonService {
 
     @Transactional(readOnly = true)
     public Person getPerson(UUID pid, AppUser user) {
-        Person person = personUtils.findPerson(pid);
+        Person person = personRepository.findPerson(pid);
         userAuthentication.assertPersonFromUser(person, user);
 
         return person;
@@ -66,7 +63,7 @@ public class PersonService {
 
     @Transactional
     public void removePerson(UUID pid, AppUser user) {
-        Person person = personUtils.findPerson(pid);
+        Person person = personRepository.findPerson(pid);
         userAuthentication.assertPersonFromUser(person, user);
         personRepository.deleteById(pid);
     }

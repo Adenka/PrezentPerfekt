@@ -4,7 +4,6 @@ import com.gusia.backend.exceptions.NoAccessException;
 import com.gusia.backend.exceptions.ObjectNotFoundException;
 import com.gusia.backend.person.Person;
 import com.gusia.backend.person.PersonRepository;
-import com.gusia.backend.person.PersonUtils;
 import com.gusia.backend.security.UserAuthentication;
 import com.gusia.backend.user.AppUser;
 import com.gusia.backend.validators.ObjectValidator;
@@ -21,17 +20,14 @@ public class IdeaService {
     private final IdeaRepository ideaRepository;
     private final PersonRepository personRepository;
     private final UserAuthentication userAuthentication;
-    private final PersonUtils personUtils;
 
     @Autowired
     public IdeaService(IdeaRepository ideaRepository,
                        PersonRepository personRepository,
-                       UserAuthentication userAuthentication,
-                       PersonUtils personUtils) {
+                       UserAuthentication userAuthentication) {
         this.ideaRepository = ideaRepository;
         this.personRepository = personRepository;
         this.userAuthentication = userAuthentication;
-        this.personUtils = personUtils;
     }
 
     private void assertIidFromPid(UUID iid, UUID pid) {
@@ -57,7 +53,7 @@ public class IdeaService {
     @Transactional
     public void addIdea(Idea idea, UUID pid, AppUser user) {
         userAuthentication.assertPidFromUser(pid, user);
-        idea.setPerson(personUtils.findPerson(pid));
+        idea.setPerson(personRepository.findPerson(pid));
 
         ObjectValidator<Idea> validator = new ObjectValidator<>();
         validator.validate(idea);
@@ -68,7 +64,7 @@ public class IdeaService {
     public void updateIdea(Idea idea, UUID pid, AppUser user) {
         userAuthentication.assertPidFromUser(pid, user);
         assertIdeaFromPid(idea, pid);
-        idea.setPerson(personUtils.findPerson(pid));
+        idea.setPerson(personRepository.findPerson(pid));
 
         ObjectValidator<Idea> validator = new ObjectValidator<>();
         validator.validate(idea);

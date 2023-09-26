@@ -2,8 +2,6 @@ package com.gusia.backend.idea;
 
 import org.springframework.hateoas.RepresentationModel;
 
-import java.util.UUID;
-
 public class IdeaModel extends RepresentationModel<IdeaModel> {
     private final String title;
 
