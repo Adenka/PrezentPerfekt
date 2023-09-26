@@ -41,18 +41,19 @@ public class PersonController {
         return personModels;
     }
 
-    //todo - przerobić na model
     @GetMapping("/{pid}")
-    public Person getPerson(@PathVariable("pid") UUID pid,
+    public PersonModel getPerson(@PathVariable("pid") UUID pid,
                             @AuthenticationPrincipal AppUser user) {
-        return personService.getPerson(pid, user);
+        Person person = personService.getPerson(pid, user);
+        return new PersonModelAssembler().toModel(person);
     }
 
     @PostMapping
     // @RequestBody - w request payload będzie reprezentacja JSON tego obiektu
-    public Person addPerson(@RequestBody Person person,
+    public PersonModel addPerson(@RequestBody Person person,
                             @AuthenticationPrincipal AppUser user) {
-        return personService.addPerson(person, user);
+        Person personAdded = personService.addPerson(person, user);
+        return new PersonModelAssembler().toModel(personAdded);
     }
 
     @PutMapping("/{pid}")

@@ -12,7 +12,6 @@ import java.util.UUID;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-//TODO - czemu ten parametr zafajdany nie działa
 @RestController
 @RequestMapping("/api/people/{pid}/ideas")
 public class IdeaController {
@@ -23,9 +22,7 @@ public class IdeaController {
         this.ideaService = ideaService;
     }
 
-    //@GetMapping
-    //@RequestMapping(value = "/api/people/{pid}/ideas")
-    @RequestMapping("")
+    @GetMapping
     public CollectionModel<IdeaModel> getIdeas(@PathVariable(value = "pid") UUID pid,
                                           @AuthenticationPrincipal AppUser user) {
         List<Idea> ideasList = ideaService.getIdeas(pid, user);
@@ -38,18 +35,14 @@ public class IdeaController {
         return ideaModels;
     }
 
-    //@PostMapping
-    //@RequestMapping(value = "/api/people/{pid}/ideas", method = RequestMethod.POST)
-    @RequestMapping(method = RequestMethod.POST, value = "")
+    @PostMapping
     public void addIdea(@RequestBody Idea idea,
                         @PathVariable("pid") UUID pid,
                         @AuthenticationPrincipal AppUser user) {
         ideaService.addIdea(idea, pid, user);
     }
 
-    @CrossOrigin
-    //@PutMapping("/{iid}")
-    //@RequestMapping(value = "/api/people/{pid}/ideas/{iid}", method = RequestMethod.PUT)
+    @PutMapping("/{iid}")
     public void updateIdea(@RequestBody Idea idea,
                            @PathVariable("iid") UUID iid,
                            @PathVariable UUID pid,
@@ -58,9 +51,7 @@ public class IdeaController {
         ideaService.updateIdea(idea, pid, user);
     }
 
-    //@DeleteMapping("/{iid}")
-    //@RequestMapping(value = "/api/people/{pid}/ideas/{iid}", method = RequestMethod.DELETE)
-    @RequestMapping(value = "/{iid}", method = RequestMethod.DELETE)
+    @DeleteMapping("/{iid}")
     public void deleteIdea(@PathVariable("iid") UUID iid,
                            @PathVariable("pid") UUID pid,
                            @AuthenticationPrincipal AppUser user) {
