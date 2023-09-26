@@ -5,6 +5,8 @@
     import { useRoute } from "vue-router";
     import AddIdeaDialog from '@/components/Ideas/AddIdeaDialog.vue';
     import { backendURL } from '@/assets/constants';
+    import { apiGet } from '@/api/requests';
+    import { extractLink } from '@/api/apiUtils.js'
 
     const personName = ref("");
     const ideas = ref([]);
@@ -16,29 +18,12 @@
     const route = useRoute();
 
     const fetchIdeas = async () => {
-        const personRes = await fetch(`${backendURL}/api/people/${route.params.pid}`);
-        const personData = await personRes.json();
-        console.log(personData);
-
+        const personData = await apiGet(`${backendURL}/api/people/${route.params.pid}`);
         personName.value = personData.name;
         console.log(personName.value);
 
-        const ideasRes = await fetch(`${backendURL}/api/people/${route.params.pid}/ideas`);
-        const ideasData = await ideasRes.json();
-        console.log(ideasData);
-        
-        const ideasArray = (() => {
-            try {
-                return ideasData._embedded.ideaModelList;
-            }
-            catch {
-                return [];
-            }
-        })();
-
-        console.log(ideasArray);
-
-        ideas.value = ideasArray;
+        const ideasData = await apiGet(`${backendURL}/api/people/${route.params.pid}/ideas`);
+        ideas.value = extractLink(ideasData, "ideaModelList")
     }
 </script>
 

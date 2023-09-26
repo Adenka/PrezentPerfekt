@@ -1,5 +1,6 @@
 <script setup>
     import { getBrightColor } from '@/assets/brightColors';
+    import { apiDelete } from '@/api/requests';
 
     const props = defineProps({
         number: Number,
@@ -14,16 +15,7 @@
 
     const deleteIdea = async () => {
         const url = new URL(props.selfLink);
-        console.log(url.pathname)
-        const res = await fetch(`${url.pathname}`, {
-            method: "DELETE",
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-
-        const restext = await res.text();
-        console.log(restext);
+        const resJson = await apiDelete(`${url.pathname}`);
 
         emit('update')
     }

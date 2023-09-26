@@ -7,33 +7,17 @@
     import { getBrightColorsArray } from '../../assets/brightColors';
     import AddTileDialog from './AddTileDialog.vue';
     import { backendURL } from "@/assets/constants";
-    import { useRouter } from 'vue-router';
+    import { apiGet } from "@/api/requests";
+    import { extractLink } from "@/api/apiUtils";
 
     const people = ref([]);
     const colors = ref([]);
-    const router = useRouter();
 
     onMounted(async () => {
-        const res = await fetch(`${backendURL}/api/people`);
-        let data;
-        //try {
-            data = await res.json();
-        /*}
-        catch(error) {
-            router.push('/login');
-        }*/
-        console.log(data);
+        const data = await apiGet(`${backendURL}/api/people`);
 
-        const peopleArray = (() => {
-            try {
-                return data._embedded.personModelList;
-            }
-            catch {
-                return [];
-            }
-        })();
-
-        console.log(peopleArray);
+        const peopleArray = extractLink(data, "personModelList");
+        
         colors.value = getBrightColorsArray(peopleArray.length);
 
         people.value = peopleArray;
