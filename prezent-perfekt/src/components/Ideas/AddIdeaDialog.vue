@@ -25,6 +25,7 @@
         });
 
         dialogStorage.changeDialogOpen(false);
+        ideaTitle.value = '';
         
         emit('update');
     }

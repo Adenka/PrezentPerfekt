@@ -24,7 +24,15 @@
         }*/
         console.log(data);
 
-        const peopleArray = data._embedded.personModelList;
+        const peopleArray = (() => {
+            try {
+                return data._embedded.personModelList;
+            }
+            catch {
+                return [];
+            }
+        })();
+
         console.log(peopleArray);
         colors.value = getBrightColorsArray(peopleArray.length);
 

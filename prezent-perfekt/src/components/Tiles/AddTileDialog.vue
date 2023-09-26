@@ -24,6 +24,8 @@
         dialogStorage.changeDialogOpen(false);
 
         const resJson = await res.json();
+        
+        personName.value = '';
 
         console.log(resJson);
         router.push(`/person/${resJson.pid}`);

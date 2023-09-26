@@ -1,7 +1,7 @@
 <script setup>
     import AddIdea from '@/components/Ideas/AddIdea.vue';
     import Idea from '@/components/Ideas/Idea.vue';
-    import { ref, onMounted, computed } from 'vue';
+    import { ref, onMounted } from 'vue';
     import { useRoute } from "vue-router";
     import AddIdeaDialog from '@/components/Ideas/AddIdeaDialog.vue';
     import { backendURL } from '@/assets/constants';
