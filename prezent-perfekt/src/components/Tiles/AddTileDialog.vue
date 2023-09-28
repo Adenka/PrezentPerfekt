@@ -16,8 +16,6 @@
             payload
         );
 
-        console.log(resJson.pid)
-
         router.push(`/person/${resJson.pid}`);
     }
 </script>
@@ -26,6 +24,7 @@
     <Dialog
         title="Add person"
         label="Name"
+        dialog-name="add"
         @submit="addTile"
     />
 </template>

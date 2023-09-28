@@ -3,10 +3,12 @@
 const toJson = async (data) => {
     const resJson = await (async () => {
         try {
-            return await data.json();
+            const dataCopy = data.clone();
+            return await dataCopy.json();
         }
         catch (e) {
-            console.log("Error: " + e);
+            const dataText = await data.text();
+            console.log("Error: " + dataText);
             return "";
         }
     })();
@@ -41,6 +43,18 @@ export const apiDelete = async (URL) => {
 
 export const apiGet = async (URL) => {
     const res = await fetch(URL);
+
+    return toJson(res);
+}
+
+export const apiPut = async (URL, payload) => {
+    const res = await fetch(URL, {
+        method: "PUT",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    })
 
     return toJson(res);
 }

@@ -2,9 +2,12 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 export const useDialogStorage = defineStore('drawer', () => {
-  const isDialogOpen = ref(false)
-  const changeDialogOpen = (event) => {
-    isDialogOpen.value = event
+  const isDialogOpen = ref({
+    "add": false,
+    "edit": false,
+  })
+  const changeDialogOpen = (event, dialogName) => {
+    isDialogOpen.value[dialogName] = event
   }
 
   return {

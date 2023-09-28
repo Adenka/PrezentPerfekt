@@ -1,27 +1,34 @@
 <script setup>
     import { ref } from 'vue';
     import { useDialogStorage } from '@/store/dialogs'
+import { watch } from 'vue';
 
     const props = defineProps({
         title: String,
-        label: String
+        label: String,
+        dialogName: String,
+        initialInputValue: String
     })
 
     const emit = defineEmits(['submit'])
 
-    const label = ref('');
+    const inputValue = ref('');
     const dialogStorage = useDialogStorage();
 
+    watch(() => props.initialInputValue, () => {
+        inputValue.value = props.initialInputValue;
+    })
+
     const emitSubmit = () => {
-        emit("submit", label.value);
-        label.value = '';
-        dialogStorage.changeDialogOpen(false);
+        emit("submit", inputValue.value);
+        inputValue.value = '';
+        dialogStorage.changeDialogOpen(false, props.dialogName);
     }
 </script>
 
 <template>
     <v-dialog
-        v-model="dialogStorage.isDialogOpen"
+        v-model="dialogStorage.isDialogOpen[props.dialogName]"
         width="50%"
     >
         <v-card>
@@ -31,13 +38,13 @@
             <v-card-text>
                 <v-text-field
                     :label="props.label"
-                    v-model="label"
+                    v-model="inputValue"
                 />
             </v-card-text>
             <v-card-actions class="d-flex justify-end buttons">
                 <v-btn
                     text
-                    @click="dialogStorage.changeDialogOpen(false)"
+                    @click="dialogStorage.changeDialogOpen(false, props.dialogName)"
                     class="action-button"
                 >
                     Cancel
@@ -48,7 +55,7 @@
                     variant="tonal"
                     class="action-button"
                 >
-                    Add
+                    Go!
                 </v-btn>
             </v-card-actions>
         </v-card>

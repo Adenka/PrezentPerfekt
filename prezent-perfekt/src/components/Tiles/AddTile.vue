@@ -10,7 +10,7 @@
     <v-card
         elevation="0"
         class="person-tile add-person-tile"
-        @click="dialogStorage.changeDialogOpen(true)"
+        @click="dialogStorage.changeDialogOpen(true, 'add')"
     >
         <v-icon class="add-icon">mdi-plus-circle</v-icon>
     </v-card>

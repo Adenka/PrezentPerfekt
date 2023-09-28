@@ -11,7 +11,7 @@
     <v-card
         class="root add-idea ma-4"
         elevation="0"
-        @click="dialogStorage.changeDialogOpen(true)"
+        @click="dialogStorage.changeDialogOpen(true, 'add')"
     >
         <v-icon class="add-icon">mdi-plus-circle</v-icon>
     </v-card>

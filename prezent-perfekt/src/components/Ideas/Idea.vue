@@ -1,3 +1,4 @@
+//TODO - w sumie cała logika do pomysłów i osób jest ta sama - zrobić coś z tym
 <script setup>
     import { getBrightColor } from '@/assets/brightColors';
     import { apiDelete } from '@/api/requests';
@@ -9,9 +10,7 @@
         selfLink: String
     });
 
-    console.log(props.selfLink);
-
-    const emit = defineEmits(['update'])
+    const emit = defineEmits(['update', 'edit'])
 
     const deleteIdea = async () => {
         const url = new URL(props.selfLink);
@@ -20,7 +19,9 @@
         emit('update')
     }
 
-    console.log(props.pid);
+    const updateIdea = () => {
+        emit('edit', props.selfLink, props.description)
+    }
 </script>
 
 <template>
@@ -35,6 +36,7 @@
             icon="mdi-pencil"
             elevation="0"
             class="idea-button"
+            @click="updateIdea"
         />
         <v-btn
             icon="mdi-delete"

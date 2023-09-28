@@ -26,6 +26,7 @@
     <Dialog
         title="Add idea"
         label="Title"
+        dialog-name="add"
         @submit="addIdea"
     />
 </template>

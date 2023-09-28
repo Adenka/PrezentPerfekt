@@ -9,9 +9,15 @@
     import { backendURL } from "@/assets/constants";
     import { apiGet } from "@/api/requests";
     import { extractLink } from "@/api/apiUtils";
+    import EditTileDialog from "./EditTileDialog.vue";
+    import { useDialogStorage } from '@/store/dialogs';
+
+    const dialogStorage = useDialogStorage();
 
     const people = ref([]);
     const colors = ref([]);
+
+    const editedData = ref({});
 
     onMounted(async () => {
         const data = await apiGet(`${backendURL}/api/people`);
@@ -23,10 +29,26 @@
         people.value = peopleArray;
     })
 
+    const setClickedData = (link, name) => {
+        editedData.value = {
+            "link": link,
+            "name": name
+        }
+
+        dialogStorage.changeDialogOpen(true, "edit");
+    }
+
 </script>
 
 <template>
-    <AddTileDialog/>
+    <AddTileDialog
+        dialogName="add"
+    />
+    <EditTileDialog
+        dialogName="edit"
+        :link="editedData.link"
+        :name="editedData.name"
+    />
     <div class="root">
         <h1 class="title">
             Nearest and dearest
@@ -39,6 +61,7 @@
                 :personName="person.name"
                 :color="colors[index]"
                 :link="person._links.self.href"
+                @edit="setClickedData"
             />
             <AddTile />
         </div>

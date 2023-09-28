@@ -7,6 +7,7 @@
     import { backendURL } from '@/assets/constants';
     import { apiGet } from '@/api/requests';
     import { extractLink } from '@/api/apiUtils.js'
+import EditIdeaDialog from '@/components/Ideas/EditIdeaDialog.vue';
 
     const personName = ref("");
     const ideas = ref([]);
@@ -20,7 +21,6 @@
     const fetchIdeas = async () => {
         const personData = await apiGet(`${backendURL}/api/people/${route.params.pid}`);
         personName.value = personData.name;
-        console.log(personName.value);
 
         const ideasData = await apiGet(`${backendURL}/api/people/${route.params.pid}/ideas`);
         ideas.value = extractLink(ideasData, "ideaModelList")
@@ -30,7 +30,11 @@
 <template>
     <div class="root">
         <AddIdeaDialog
+            dialogName="add"
             @update="fetchIdeas"
+        />
+        <EditIdeaDialog
+            dialogName="edit"
         />
         <h1 class="ma-4">{{personName}}</h1>
         <v-row>
