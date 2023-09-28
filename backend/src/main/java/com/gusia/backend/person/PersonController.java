@@ -58,11 +58,12 @@ public class PersonController {
 
     @PutMapping("/{pid}")
     // @PathVariable - zmienna ze ścieżki
-    public void updatePerson(@PathVariable("pid") UUID pid,
+    public PersonModel updatePerson(@PathVariable("pid") UUID pid,
                              @RequestBody Person person,
                              @AuthenticationPrincipal AppUser user) {
         person.setPid(pid);
-        personService.updatePerson(person, user);
+        Person personAdded = personService.updatePerson(person, user);
+        return new PersonModelAssembler().toModel(personAdded);
     }
 
     @DeleteMapping("/{pid}")

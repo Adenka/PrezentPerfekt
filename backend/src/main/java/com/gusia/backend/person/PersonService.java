@@ -47,18 +47,18 @@ public class PersonService {
     }
 
     @Transactional
-    public void updatePerson(Person person, AppUser user) {
+    public Person updatePerson(Person person, AppUser user) {
         ObjectValidator<Person> validator = new ObjectValidator<>();
         validator.validate(person);
 
-        if (personRepository.findById(person.getPid()).isPresent()) {
+        if (!personRepository.findById(person.getPid()).isPresent()) {
             throw new ObjectNotFoundException();
         }
 
         person.setUser(user);
 
         userAuthentication.assertPersonFromUser(person, user);
-        personRepository.save(person);
+        return personRepository.save(person);
     }
 
     @Transactional
