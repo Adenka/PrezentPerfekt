@@ -8,7 +8,7 @@ const toJson = async (data) => {
         }
         catch (e) {
             const dataText = await data.text();
-            console.log("Error: " + dataText);
+            console.log("Error: '" + dataText + "'");
             return "";
         }
     })();
@@ -19,6 +19,7 @@ const toJson = async (data) => {
 }
 
 export const apiPost = async (URL, payload) => {
+    console.log("POST: " + URL + ", " + payload);
     const res = await fetch(URL, {
         method: "POST",
         headers: {
@@ -31,6 +32,7 @@ export const apiPost = async (URL, payload) => {
 };
 
 export const apiDelete = async (URL) => {
+    console.log("DELETE: " + URL);
     const res = await fetch(URL, {
         method: "DELETE",
         headers: {
@@ -42,12 +44,14 @@ export const apiDelete = async (URL) => {
 }
 
 export const apiGet = async (URL) => {
+    console.log("GET: " + URL);
     const res = await fetch(URL);
 
     return toJson(res);
 }
 
 export const apiPut = async (URL, payload) => {
+    console.log("PUT: " + URL + ", " + payload);
     const res = await fetch(URL, {
         method: "PUT",
         headers: {

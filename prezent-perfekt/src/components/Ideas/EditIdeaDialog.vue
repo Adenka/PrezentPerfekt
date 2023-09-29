@@ -3,13 +3,17 @@
     import { apiPut } from '@/api/requests';
 
     const props = defineProps({
+        dialogName: String,
         link: String,
         title: String
     })
 
+    const emit = defineEmits(['update']);
+
     const changeIdea = async (ideaTitle) => {
+        console.log(ideaTitle);
         const payload = {
-            name: ideaTitle
+            title: ideaTitle
         }
 
         const url = new URL(props.link);
@@ -18,6 +22,8 @@
             `${url.pathname}`,
             payload
         );
+
+        emit('update');
     }
 </script>
 
@@ -25,9 +31,9 @@
     <Dialog
         title="Edit idea"
         label="New title"
-        dialog-name=""
+        :dialog-name="props.dialogName"
         :initial-input-value="props.title"
-        @submit="changeTile"
+        @submit="changeIdea"
     />
 </template>
 

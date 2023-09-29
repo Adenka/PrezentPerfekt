@@ -7,6 +7,8 @@
         name: String
     })
 
+    const emit = defineEmits(['update']);
+
     const changeTile = async (personName) => {
         const payload = {
             name: personName
@@ -18,6 +20,8 @@
             `${url.pathname}`,
             payload
         );
+
+        emit('update');
     }
 </script>
 

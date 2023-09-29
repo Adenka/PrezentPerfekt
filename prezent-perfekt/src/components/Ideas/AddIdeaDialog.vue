@@ -13,7 +13,7 @@
             title: ideaTitle
         }
         
-        apiPost(
+        const resJson = await apiPost(
             `${backendURL}/api/people/${route.params.pid}/ideas`,
             payload
         );

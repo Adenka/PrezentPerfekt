@@ -1,7 +1,9 @@
 //TODO - w sumie cała logika do pomysłów i osób jest ta sama - zrobić coś z tym
+//TODO - ujednolicić cudzysłowia
 <script setup>
     import { getBrightColor } from '@/assets/brightColors';
     import { apiDelete } from '@/api/requests';
+    import { useDialogStorage } from '@/store/dialogs';
 
     const props = defineProps({
         number: Number,
@@ -10,6 +12,7 @@
         selfLink: String
     });
 
+    const dialogStorage = useDialogStorage();
     const emit = defineEmits(['update', 'edit'])
 
     const deleteIdea = async () => {
@@ -19,8 +22,9 @@
         emit('update')
     }
 
-    const updateIdea = () => {
-        emit('edit', props.selfLink, props.description)
+    const updateIdea = async () => {
+        emit('edit', props.selfLink, props.description);
+        dialogStorage.changeDialogOpen(true, "edit");
     }
 </script>
 

@@ -19,7 +19,9 @@
 
     const editedData = ref({});
 
-    onMounted(async () => {
+    onMounted(() => fetchPeople());
+
+    const fetchPeople = async () => {
         const data = await apiGet(`${backendURL}/api/people`);
 
         const peopleArray = extractLink(data, "personModelList");
@@ -27,7 +29,7 @@
         colors.value = getBrightColorsArray(peopleArray.length);
 
         people.value = peopleArray;
-    })
+    }
 
     const setClickedData = (link, name) => {
         editedData.value = {
@@ -48,6 +50,7 @@
         dialogName="edit"
         :link="editedData.link"
         :name="editedData.name"
+        @update="fetchPeople"
     />
     <div class="root">
         <h1 class="title">
