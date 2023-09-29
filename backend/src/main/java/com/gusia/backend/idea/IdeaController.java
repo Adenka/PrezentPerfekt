@@ -36,17 +36,19 @@ public class IdeaController {
     }
 
     @PostMapping
-    public void addIdea(@RequestBody Idea idea,
+    public IdeaModel addIdea(@RequestBody Idea idea,
                         @PathVariable("pid") UUID pid,
                         @AuthenticationPrincipal AppUser user) {
-        ideaService.addIdea(idea, pid, user);
+        Idea ideaSaved = ideaService.addIdea(idea, pid, user);
+        return new IdeaModelAssembler().toModel(ideaSaved);
     }
 
     @PutMapping("/{iid}")
     public void updateIdea(@RequestBody Idea idea,
                            @PathVariable("iid") UUID iid,
-                           @PathVariable UUID pid,
+                           @PathVariable("pid") UUID pid,
                            @AuthenticationPrincipal AppUser user) {
+        System.out.println(idea);
         idea.setIid(iid);
         ideaService.updateIdea(idea, pid, user);
     }

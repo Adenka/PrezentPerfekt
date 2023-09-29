@@ -48,6 +48,6 @@ public class Idea {
 
     @Override
     public String toString() {
-        return "title: " + title + ", person: " + person.getName();
+        return "title: " + title /*+ ", person: " + person.getName()*/;
     }
 }

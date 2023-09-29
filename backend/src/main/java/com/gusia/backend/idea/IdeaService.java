@@ -51,20 +51,20 @@ public class IdeaService {
     }
 
     @Transactional
-    public void addIdea(Idea idea, UUID pid, AppUser user) {
+    public Idea addIdea(Idea idea, UUID pid, AppUser user) {
         userAuthentication.assertPidFromUser(pid, user);
         idea.setPerson(personRepository.findPerson(pid));
 
         ObjectValidator<Idea> validator = new ObjectValidator<>();
         validator.validate(idea);
-        ideaRepository.save(idea);
+        return ideaRepository.save(idea);
     }
 
     @Transactional
     public void updateIdea(Idea idea, UUID pid, AppUser user) {
         userAuthentication.assertPidFromUser(pid, user);
-        assertIdeaFromPid(idea, pid);
         idea.setPerson(personRepository.findPerson(pid));
+        assertIdeaFromPid(idea, pid);
 
         ObjectValidator<Idea> validator = new ObjectValidator<>();
         validator.validate(idea);

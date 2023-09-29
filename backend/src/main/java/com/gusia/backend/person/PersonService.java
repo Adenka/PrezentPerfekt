@@ -51,7 +51,7 @@ public class PersonService {
         ObjectValidator<Person> validator = new ObjectValidator<>();
         validator.validate(person);
 
-        if (!personRepository.findById(person.getPid()).isPresent()) {
+        if (personRepository.findById(person.getPid()).isEmpty()) {
             throw new ObjectNotFoundException();
         }
 
