@@ -3,18 +3,16 @@ package com.gusia.backend.person;
 import com.gusia.backend.user.AppUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.Link;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-// na początku Spring przejrzy mój epicki kod i znajdzie te anotacje,
+// na początku Spring przejrzy mój epicki kod i znajdzie te adnotacje,
 // więc nie trzeba się pocić, żeby coś gdzieś pododawać
 
 // kontroler do jakiejś ścieżki
@@ -49,7 +47,7 @@ public class PersonController {
     }
 
     @PostMapping
-    // @RequestBody - w request payload będzie reprezentacja JSON tego obiektu
+                                 // request payload będzie reprezentacja JSON tego obiektu
     public PersonModel addPerson(@RequestBody Person person,
                             @AuthenticationPrincipal AppUser user) {
         Person personAdded = personService.addPerson(person, user);
@@ -57,7 +55,7 @@ public class PersonController {
     }
 
     @PutMapping("/{pid}")
-    // @PathVariable - zmienna ze ścieżki
+                                    // zmienna ze ścieżki
     public PersonModel updatePerson(@PathVariable("pid") UUID pid,
                              @RequestBody Person person,
                              @AuthenticationPrincipal AppUser user) {

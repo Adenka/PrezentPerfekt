@@ -19,6 +19,7 @@ public class Person {
     @ManyToOne
     private AppUser user;
 
+    // JPA potrzebuje pustego konstruktora, ale mógłby być prywatny (łatwo można to zrobić w lomboku)
     public Person() {
 
     }

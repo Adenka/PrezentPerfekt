@@ -24,7 +24,7 @@ public class IdeaController {
 
     @GetMapping
     public CollectionModel<IdeaModel> getIdeas(@PathVariable(value = "pid") UUID pid,
-                                          @AuthenticationPrincipal AppUser user) {
+                                               @AuthenticationPrincipal AppUser user) {
         List<Idea> ideasList = ideaService.getIdeas(pid, user);
         CollectionModel<IdeaModel> ideaModels = new IdeaModelAssembler().toCollectionModel(ideasList);
 
